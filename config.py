@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 load_dotenv("config.env")
 
 
+ALIVE_LOGO = getenv("ALIVE_LOGO", "https://telegra.ph/file/cbe826936d4de9ec1838a.jpg")
 API_HASH = getenv("API_HASH")
 API_ID = int(getenv("API_ID", ""))
 BLACKLIST_CHAT = getenv("BLACKLIST_CHAT", None)
