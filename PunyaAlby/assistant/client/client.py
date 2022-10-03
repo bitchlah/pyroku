@@ -3,7 +3,7 @@ This file creates Assistant's client.
 """
 
 from pyrogram import Client
-from main.core import Core
+from PunyaAlby.assistant.core import Core
 
 
 
