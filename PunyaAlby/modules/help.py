@@ -4,9 +4,9 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from config import HELP_LOGO
-from Cilik import CMD_HELP
-from Cilik.helpers.basic import edit_or_reply
-from Cilik.helpers.utility import split_list
+from PunyaAlby import CMD_HELP
+from PunyaAlby.helpers.basic import edit_or_reply
+from PunyaAlby.helpers.utility import split_list
 
 heading = "──「 **{0}** 」──\n"
 
