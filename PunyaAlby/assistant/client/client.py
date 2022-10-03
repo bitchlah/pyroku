@@ -10,10 +10,10 @@ from main.core import Core
 
 
 class Bot(Core, Client):
-    """ Assistant (Nora) """
+    """ Assistant (ALBY) """
     def __init__(self):
         super().__init__(
-            name="Nora",
+            name="ALBY",
             api_id=self.API_ID,
             api_hash=self.API_HASH,
             bot_token=self.BOT_TOKEN,
