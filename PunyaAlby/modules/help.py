@@ -3,7 +3,7 @@ from prettytable import PrettyTable
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from config import HELP_LOGO
+from config import ALIVE_LOGO
 from PunyaAlby import CMD_HELP
 from PunyaAlby.helpers.basic import edit_or_reply
 from PunyaAlby.helpers.utility import split_list
@@ -26,14 +26,14 @@ async def module_help(client: Client, message: Message):
 
         ac = PrettyTable()
         ac.header = False
-        ac.title = "🤡 Kitaro-Ubot 🤡"
+        ac.title = "🤡 ALBY-Ubot 🤡"
         ac.align = "l"
 
         for x in split_list(sorted(CMD_HELP.keys()), 2):
             ac.add_row([x[0], x[1] if len(x) >= 2 else None])
 
             
-        text = "🗂️ Kitaro-Modules \n\n"
+        text = "🗂️ ALBY-Modules \n\n"
         text += "⚡ Ubot: -⋟ `kit` -⋟ `alive` -⋟ `heroku` -⋟ `system` -⋟ `updater` \n\n"
         text += "⚙️ Tolls: -⋟ `profile` -⋟ `gcast` -⋟ `info` -⋟ `locks` -⋟ `tools` -⋟ `vctools` -⋟ `purge` \n\n"
         text += "💥 Fun : -⋟ `asupan` -⋟ `animasi` -⋟ `nulis -⋟ `salam` -⋟ `toxic` \n\n"
@@ -42,7 +42,7 @@ async def module_help(client: Client, message: Message):
         text += "    `.help` `[module_name]`\n"
         
         await message.reply_photo(
-           photo=HELP_LOGO,
+           photo=ALIVE_LOGO,
            caption=text,
         )     
            
