@@ -7,14 +7,12 @@ from config import Config
 from telegraph import Telegraph
 from pyrogram import __version__ as pyrogram_version
 from main.core.helpers import Helpers
-from main.core.newpyrogram import Methods
 
 
 
 
 
-
-class ClassManager(Config, Helpers, Methods):
+class ClassManager(Config, Helpers):
     # versions /
     python_version = str(platform.python_version())
     pyrogram_version = str(pyrogram_version)
