@@ -3,12 +3,12 @@ from prettytable import PrettyTable
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from config import *
 from PunyaAlby import CMD_HELP
 from PunyaAlby.helpers.basic import edit_or_reply
 from PunyaAlby.helpers.utility import split_list
 
 heading = "──「 **{0}** 」──\n"
+ALIVE_LOGO = getenv("ALIVE_LOGO", "https://telegra.ph/file/cbe826936d4de9ec1838a.jpg")
 
 
 @Client.on_message(filters.command("help", [".", "-", "^", "!", "?"]) & filters.me)
