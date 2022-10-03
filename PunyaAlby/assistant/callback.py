@@ -251,3 +251,252 @@ async def give_plugin_cmds(_, cb: CallbackQuery):
             ]
         ),
         )
+
+"""
+This file creates global commands for public users.
+"""
+
+@Client.bot.on_callback_query(filters.regex("ubpublic-commands-tab"))
+@Client.alert_user
+async def _public_commands(_, cb: CallbackQuery):
+    await cb.edit_message_text(
+        text=Client.public_tab_string(),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="Back",
+                        callback_data="extra-tab"
+                    )
+                ]
+            ]
+        )
+    )
+
+
+
+
+
+@Client.bot.on_callback_query(filters.regex("public-commands-tab"))
+async def _global_commands(_, cb):
+    await cb.edit_message_text(
+        text=Client.public_tab_string(),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="Back",
+                        callback_data="back-to-public"
+                    )
+                ]
+            ]
+        )
+    )
+
+
+@Client.bot.on_callback_query(filters.regex("back-to-public"))
+async def _back_to_info(_, cb):
+    await cb.edit_message_text(
+        text="You can use these public commands, check below.",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="• View commands •",
+                        callback_data="public-commands-tab"
+                    )
+                ]
+            ]
+        )
+    )
+
+"""
+This file creates userbot restarting page.
+"""
+
+@Client.bot.on_callback_query(filters.regex("restart-tab"))
+@Client.alert_user
+async def _restart_userbot(_, cb: CallbackQuery):
+    await cb.edit_message_text(
+        text=Client.restart_tab_string("`Press confirm to restart.`"),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="Confirm",
+                        callback_data="confirm-restart-tab"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="Home",
+                        callback_data="close-tab"
+                    ),
+                    InlineKeyboardButton(
+                        text="Back",
+                        callback_data="settings-tab"
+                    )
+                ]
+            ]
+        ),
+    )
+
+
+@Client.bot.on_callback_query(filters.regex("confirm-restart-tab"))
+@Client.alert_user
+async def _confirm_restart(_, cb: CallbackQuery):
+    try:
+        back_button = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="Back",
+                        callback_data="settings-tab"
+                    )
+                ]
+            ]
+        )
+
+        await cb.edit_message_text(
+            text=Client.restart_tab_string("`Trying to restart userbot . . .`"),
+            reply_markup=back_button
+        )
+        if not Client.heroku_app():
+            await cb.edit_message_text(
+                text=Client.restart_tab_string("`Heroku requirements missing (heroku - key, app name), restart manually . . .`"),
+                reply_markup=back_button
+            )
+        else:
+            res = Client.heroku_app().restart()
+            text = "`Please wait 2-3 minutes to restart userbot . . .`"
+            final_text = text if res else "`Failed to restart userbot, do it manually . . .`"
+            await cb.edit_message_text(
+                text=Client.restart_tab_string(final_text),
+                reply_markup=back_button
+            )
+    except Exception as e:
+        print(e)
+        await Client.error(e)
+
+"""
+This file creates pages for settings in help menu.
+"""
+
+@Client.bot.on_callback_query(filters.regex("settings-tab"))
+@Client.alert_user
+async def _settings(_, cb: CallbackQuery):
+    await cb.edit_message_text(
+        text=Client.settings_tab_string(),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "Restart bot", callback_data="restart-tab",
+                    ),
+                ],
+                [
+                    InlineKeyboardButton(
+                        "Shutdown bot", callback_data="shutdown-tab",
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        "Update bot", callback_data="update-tab",
+                    )
+                ],
+                Client.BuildKeyboard((["Home", "close-tab"], ["Back", "home-tab"])),
+            ]
+        ),
+    )
+
+"""
+This file creates pages for userbot shutdown>
+"""
+
+@Client.bot.on_callback_query(filters.regex("shutdown-tab"))
+@Client.alert_user
+async def _shutdown_tron(_, cb: CallbackQuery):
+    await cb.edit_message_text(
+        text=Client.shutdown_tab_string("`Press confirm to shutdown userbot.`"),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="Confirm",
+                        callback_data="confirm-shutdown"
+                    )
+                ],
+                [
+                    InlineKeyboardButton(
+                        text="Home",
+                        callback_data="close-tab"
+                    ),
+                    InlineKeyboardButton(
+                        text="Back",
+                        callback_data="settings-tab"
+                    )
+                ]
+            ]
+        )
+    )
+
+
+@Client.bot.on_callback_query(filters.regex("confirm-shutdown"))
+@Client.alert_user
+async def _shutdown_core(_, cb):
+    back_button=InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    text="Back",
+                    callback_data="settings-tab"
+                )
+            ]
+        ]
+    )
+
+    await cb.edit_message_text(
+        text=Client.shutdown_tab_string("`Trying to shutdown userbot . . .`"),
+        reply_markup=back_button
+    )
+
+    if not Client.heroku_app():
+        await cb.edit_message_text(
+            text=Client.shutdown_tab_string("`Failed to shutdown userbot . . .`"),
+            reply_markup=back_button
+        )
+    else:
+        res = Client.heroku_app().process_formation()["worker"].scale(0)
+        process = "Successfully" if res else "Unsuccessfully"
+        await cb.edit_message_text(
+            text=Client.shutdown_tab_string(f"`Shutdown {process} . . .`"),
+            reply_markup=back_button
+        )
+
+"""
+This file creates stats page in help menu.
+"""
+
+@Client.bot.on_callback_query(filters.regex("stats-tab"))
+@Client.alert_user
+async def _stats(_, cb: CallbackQuery):
+    await cb.edit_message_text(
+        text=Client.stats_tab_string(),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                Client.BuildKeyboard((["Home", "close-tab"], ["Back", "home-tab"]))
+            ]
+        ),
+    )
+
+""""
+This file creates pages for updating the userbot to latet versions
+"""
+
+@Client.bot.on_callback_query(filters.regex("update-tab"))
+@Client.alert_user
+async def _update_callback(_, cb: CallbackQuery):
+    await cb.answer(
+            text="This feature is not implemented yet.",
+            show_alert=True
+        )
