@@ -3,7 +3,7 @@ from prettytable import PrettyTable
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from config import ALIVE_LOGO
+from config import *
 from PunyaAlby import CMD_HELP
 from PunyaAlby.helpers.basic import edit_or_reply
 from PunyaAlby.helpers.utility import split_list
