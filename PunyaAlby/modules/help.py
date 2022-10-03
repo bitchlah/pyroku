@@ -45,7 +45,7 @@ async def module_help(client: Client, message: Message):
             await message.edit(this_command, parse_mode="markdown")
         else:
             await message.edit(
-                "`Module Tidak Tersedia❌ Harap Masukkan Nama Module Yang Tersedia.`", parse_mode="markdown"
+                "`Please specify a valid module name.`", parse_mode="markdown"
             )
 
     await asyncio.sleep(10)
