@@ -48,3 +48,13 @@ STRING_SESSION3 = getenv("STRING_SESSION3", "")
 STRING_SESSION4 = getenv("STRING_SESSION4", "")
 STRING_SESSION5 = getenv("STRING_SESSION5", "")
 SUDO_USERS = list(map(int, getenv("SUDO_USERS", "").split()))
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+# ---- assistant ----
+    # set your assistant name, will be used in assistant tab's about section
+    ASSISTANT_NAME = os.getenv("ASSISTANT_NAME", "Lara")
+    # set your assistant age
+    ASSISTANT_AGE = os.getenv("ASSISTANT_AGE", "20")
+    # set your assistant pic 
+    ASSISTANT_PIC = os.getenv("ASSISTANT_PIC", "./main/core/resources/images/nora.png")
+    # set your assistant about text
+    ASSISTANT_TEXT = os.getenv("ASSISTANT_TEXT", "")
