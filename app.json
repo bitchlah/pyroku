@@ -28,7 +28,7 @@
       "description": "Masukan Nama App heroku, Nama App yang paling pertama di isi (liat paling atas)",
       "required": false
     },
-    "TOKEN": {
+    "BOT_TOKEN": {
       "description": "Go to @botfather in telegram and make a new bot and get the bot token.",
       "required": true
     }
