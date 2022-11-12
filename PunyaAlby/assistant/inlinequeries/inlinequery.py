@@ -1,10 +1,10 @@
+
 """
 This file gives inline results with bot having via botusername tag.
 """
 
 import re
-from pyrogram import filters, Client
-from pyrogram.types import Message
+from pyrogram import filters
 from pyrogram.handlers import CallbackQueryHandler
 from pyrogram.enums import ParseMode
 from pyrogram.errors import PeerIdInvalid
@@ -16,18 +16,21 @@ from pyrogram.types import (
     InputTextMessageContent,
 )
 
+from PunyaAlby.userbot.client import app
+
+
 
 
 async def create_articles():
     cmds = []
-    info = Client.CMD_HELP
+    info = app.CMD_HELP
 
     for x in sorted([info.get(x) for x in info]):
         cmds.append(
             InlineQueryResultArticle(
                 title=x[0],
                 input_message_content=InputTextMessageContent(
-                    "".join(await Client.PluginData(x[0]))
+                    "".join(await app.PluginData(x[0]))
                 )
             )
         )
@@ -37,21 +40,21 @@ async def create_articles():
 
 
 # via bot messages
-@Client.bot.on_inline_query(filters.user(Client.id))
+@app.bot.on_inline_query(filters.user(app.id))
 async def inline_result(_, inline_query):
     query = inline_query.query
     if query.startswith("#pmpermit"):
         await inline_query.answer(
         results=[
             InlineQueryResultPhoto(
-                photo_url=Client.PMPERMIT_PIC(),
+                photo_url=app.PmpermitPic(),
                 title="📍ALBY Inline security system",
                 description="Sistem Keamanan ALBY.",
-                caption=Client.PmpermitText(),
+                caption=app.PmpermitText(),
                 parse_mode=ParseMode.DEFAULT,
                 reply_markup=InlineKeyboardMarkup(
                     [
-                        Client.BuildKeyboard(([["Approve", "approve-tab"]]))
+                        app.BuildKeyboard(([["Approve", "approve-tab"]]))
                     ]
                 )
             )
@@ -59,68 +62,23 @@ async def inline_result(_, inline_query):
         cache_time=1
         )
     elif query.startswith("#helpmenu"):
-        emoji = Client.HelpEmoji() or "•"
+        emoji = app.HelpEmoji() or "•"
 
         await inline_query.answer(
         results=[
             InlineQueryResultPhoto(
-                photo_url=Client.BotPic(),
+                photo_url=app.BotPic(),
                 title="📍 ALBY-Pyrobot Inline Menu 📍",
                 description="Menu Help Kamu.",
-                caption=Client.home_tab_string(),
+                caption=app.home_tab_string(),
                 reply_markup=InlineKeyboardMarkup(
                     [
-                        Client.BuildKeyboard(
+                        app.BuildKeyboard(
                             (
-                                [f"{emoji} Settings {emoji}", "settings-tab"],
                                 [f"{emoji} Plugins {emoji}", "plugins-tab"]
                             )
                         ),
-                        Client.BuildKeyboard(
-                            (
-                                [f"{emoji} Extra {emoji}", "extra-tab"],
-                                [f"{emoji} Stats {emoji}", "stats-tab"]
-                            )
-                        ),
-                        Client.BuildKeyboard(([["Assistant", "assistant-tab"]])),
-                        Client.BuildKeyboard(([["Close", "close-tab"]]))
-                    ]
-                )
-            )
-        ],
-        cache_time=1
-        )
-    elif query.startswith("#ialive"):
-        await inline_query.answer(
-        results=[
-            InlineQueryResultPhoto(
-                photo_url=Client.ialive_pic(),
-                title="📍ALBY Inline alive",
-                description="Alive Kamu Disini.",
-                caption=Client.ialive_tab_string(),
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        Client.BuildKeyboard((["Home", "close-tab"], ["Back", "home-tab"]))
-                    ]
-                )
-            )
-            ],
-        cache_time=1
-        )
-    elif query.startswith("#quote"):
-        await inline_query.answer(
-        results=[
-            InlineQueryResultArticle(
-                title="📍ALBY Inline anime quotes",
-                input_message_content=InputTextMessageContent(Client.quote()),
-                description="Dapatkan kutipan karakter anime tanpa batas disini.",
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "More", callback_data="animequote-tab"
-                            )
-                        ],
+                        app.BuildKeyboard(([["Close", "close-tab"]]))
                     ]
                 )
             )
@@ -138,13 +96,13 @@ async def inline_result(_, inline_query):
             text = query.split("|")
 
         try:
-            user = await Client.bot.get_users(text[0])
+            user = await app.bot.get_users(text[0])
         except PeerIdInvalid:
             return
 
         user_id = user.id
 
-        old = Client.bot.whisper_ids.get(str(user_id))
+        old = app.bot.whisper_ids.get(str(user_id))
         if old:
             number = str(int(sorted(old)[-1])+1) # last updated msg number
         else:
@@ -153,15 +111,15 @@ async def inline_result(_, inline_query):
         await inline_query.answer(
         results=[
             InlineQueryResultArticle(
-                title="📍Pesan Bisikan.",
+                title="whisper message.",
                 input_message_content=InputTextMessageContent(f"🔒 A whisper message to {text[0]}, Only he/she can open it."),
-                description="kirim pesan bisikan ke seseorang.",
+                description="send a whisper message to someone.",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton(
                                 text="show message 🔐", 
-                                callback_data=f"{Client.id}|{user_id}|{number}"
+                                callback_data=f"{app.id}|{user_id}|{number}"
                             )
                         ],
                     ]
@@ -175,7 +133,7 @@ async def inline_result(_, inline_query):
         if int(number) > 0:
              old.update({number:text[1]}) # new message
         else:
-            Client.bot.whisper_ids.update({str(user_id):{number:text[1]}}) # first message
+            app.bot.whisper_ids.update({str(user_id):{number:text[1]}}) # first message
 
         async def whisper_callback(client, cb):
                     try:
@@ -199,7 +157,7 @@ async def inline_result(_, inline_query):
                     except Exception as e:
                         print(e)
 
-        return Client.bot.add_handler(CallbackQueryHandler(callback=whisper_callback, filters=filters.regex(r"\d+[|]\d+[|]\d+")))
+        return app.bot.add_handler(CallbackQueryHandler(callback=whisper_callback, filters=filters.regex(r"\d+[|]\d+[|]\d+")))
 
     else:
         await inline_query.answer(
