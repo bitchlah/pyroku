@@ -52,7 +52,7 @@ async def start(_, m: Message):
         elif m.from_user.id != Client.id:
             info = await Client.bot.send_photo(
                 m.chat.id,
-                "main/core/resources/images/tron-square.png",
+                "PunyaAlby/helpers/PYROBY.jpg",
                 f"Hey {m.from_user.mention} You are eligible to use me. There are some commands you can use, check below.",
                 reply_markup=InlineKeyboardMarkup(
                     [public]
