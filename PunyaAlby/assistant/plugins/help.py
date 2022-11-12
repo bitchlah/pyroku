@@ -1,56 +1,59 @@
-from pyrogram import filters, Client
+from pyrogram import filters
 
 from pyrogram.types import (
     InlineKeyboardMarkup, 
     Message,
 )
 
+from PunyaAlby.userbot.client import app
 
-emoji = Client.HelpEmoji() or "•"
 
-settings = Client.BuildKeyboard(([f"{emoji} Settings {emoji}", "settings-tab"], [f"{emoji} Modules {emoji}", "plugins-tab"]))
-extra = Client.BuildKeyboard(([f"{emoji} Extra {emoji}", "extra-tab"], [f"{emoji} Stats {emoji}", "stats-tab"]))
-about = Client.BuildKeyboard(([["Assistant", "assistant-tab"]]))
-close = Client.BuildKeyboard(([["Close", "close-tab"]]))
-public = Client.BuildKeyboard(([[f"{emoji} Public Commands {emoji}", "public-commands-tab"]]))
+
+emoji = app.HelpEmoji() or "•"
+
+settings = app.BuildKeyboard(([f"{emoji} Settings {emoji}", "settings-tab"], [f"{emoji} Modules {emoji}", "plugins-tab"]))
+extra = app.BuildKeyboard(([f"{emoji} Extra {emoji}", "extra-tab"], [f"{emoji} Stats {emoji}", "stats-tab"]))
+about = app.BuildKeyboard(([["Assistant", "assistant-tab"]]))
+close = app.BuildKeyboard(([["Close", "close-tab"]]))
+public = app.BuildKeyboard(([[f"{emoji} Public Commands {emoji}", "public-commands-tab"]]))
 
 
 
 
 
 # /help command for bot
-@Client.bot.on_message(filters.command("help"), group=-1)
+@app.bot.on_message(filters.command("help"), group=-1)
 async def start(_, m: Message):
     if m.from_user:
-        if m.from_user.id == Client.id:
+        if m.from_user.id == app.id:
             # bot pic
             buttons=InlineKeyboardMarkup(
                 [ settings, extra, about, close ]
             )
-            botpic = Client.ALIVE_LOGO().split(".")[-1] # extension of media
+            botpic = app.ALIVE_LOGO().split(".")[-1] # extension of media
             if botpic in ("jpg", "png", "jpeg"):
-                info = await Client.bot.send_photo(
+                info = await app.bot.send_photo(
                     m.chat.id,
-                    Client.BotPic(),
-                    Client.BotBio(m),
+                    app.BotPic(),
+                    app.BotBio(m),
                     reply_markup=buttons
                 )
             elif botpic in ("mp4", "gif"):
-                info = await Client.bot.send_video(
+                info = await app.bot.send_video(
                     m.chat.id,
-                    Client.BotPic(),
-                    Client.BotBio(m),
+                    app.BotPic(),
+                    app.BotBio(m),
                     reply_markup=buttons
                 )
             else:
-                info = await Client.bot.send_message(
+                info = await app.bot.send_message(
                     m.chat.id,
-                    Client.BotBio(m),
+                    app.BotBio(m),
                     reply_markup=buttons
                 )
 
-        elif m.from_user.id != Client.id:
-            info = await Client.bot.send_photo(
+        elif m.from_user.id != app.id:
+            info = await app.bot.send_photo(
                 m.chat.id,
                 "PunyaAlby/helpers/PYROBY.jpg",
                 f"Hey {m.from_user.mention} You are eligible to use me. There are some commands you can use, check below.",
@@ -58,5 +61,5 @@ async def start(_, m: Message):
                     [public]
                 ),
             )
-        Client.message_ids.update({info.chat.id : info.id})
+        app.message_ids.update({info.chat.id : info.id})
 
