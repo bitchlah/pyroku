@@ -1,4 +1,3 @@
-
 """
 This file gives inline results with bot having via botusername tag.
 """
