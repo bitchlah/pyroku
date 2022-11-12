@@ -2,7 +2,7 @@
 This file creates home page of helpmenu.
 """
 
-from pyrogram import Client, filters
+from pyrogram import filters
 
 from pyrogram.types import (
     InlineKeyboardMarkup,
@@ -10,23 +10,24 @@ from pyrogram.types import (
     CallbackQuery,
 )
 
+from PunyaAlby.userbot.client import app
 
 
 
 
 
-@Client.bot.on_callback_query(filters.regex("home-tab"))
-@Client.alert_user
+@app.bot.on_callback_query(filters.regex("home-tab"))
+@app.alert_user
 async def _start(_, cb: CallbackQuery):
     await cb.edit_message_media(
-        media=InputMediaPhoto(media=Client.BotPic(), caption=Client.home_tab_string()),
+        media=InputMediaPhoto(media=app.BotPic(), caption=app.home_tab_string()),
         reply_markup=InlineKeyboardMarkup([
-                Client.BuildKeyboard(
+                app.BuildKeyboard(
                     (
                         ["• Plugins •", "plugins-tab"]
                     )
                 ),
-                Client.BuildKeyboard(([["Close", "close-tab"]]))
+                app.BuildKeyboard(([["Close", "close-tab"]]))
         ]
         ),
     )
