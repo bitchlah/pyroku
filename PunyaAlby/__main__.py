@@ -37,9 +37,6 @@ async def start_assistant():
                 ["start", "check whether bot is on or not."],
                 ["help", "Get your helpdex."],
                 ["ping", "Get server response speed & uptime."],
-                ["id", "Get ids of users / groups."],
-                ["quote", "get inline anime quotes."],
-                ["broadcast", "send messages to users who have started your bot."],
             ]
             cmds = [x.command for x in await bot1.bot.get_bot_commands()]
             botcmdkeys = [y[0] for y in botcmd]
