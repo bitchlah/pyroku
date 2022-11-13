@@ -4,7 +4,7 @@ import random
 import string
 from pyrogram import Client
 from PunyaAlby.assistant.client import Bot
-from PunyaAlby.core import Core
+from PunyaAlby.assistant.core import Core
 from PunyaAlby.core.newpyrogram.dispatcher import Dispatcher
 
 
