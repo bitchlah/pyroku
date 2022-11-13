@@ -11,7 +11,7 @@ heading = "──「 **{0}** 」──\n"
 ALIVE_LOGO = "https://telegra.ph/file/cbe826936d4de9ec1838a.jpg"
 
 
-@Client.on_message(filters.command("help", [".", "-", "^", "!", "?"]) & filters.me)
+@Client.on_message(filters.command("helpp", [".", "-", "^", "!", "?"]) & filters.me)
 async def module_help(client: Client, message: Message):
     cmd = message.command
 
