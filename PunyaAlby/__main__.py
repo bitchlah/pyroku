@@ -13,7 +13,7 @@ from pyrogram import idle
 from uvloop import install
 
 from config import BOT_VER, CMD_HANDLER
-from PunyaAlby.userbot.client import app
+from PunyaAlby.userbot import app
 from PunyaAlby import BOTLOG_CHATID, LOGGER, LOOP, aiosession, bot1, bots
 from PunyaAlby.helpers.misc import create_botlog, git, heroku
 
