@@ -5,7 +5,7 @@ from pyrogram.types import (
     Message,
 )
 
-from PunyaAlby.userbot.client import app
+from PunyaAlby.userbot import app
 
 
 
