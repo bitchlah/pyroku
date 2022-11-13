@@ -1,4 +1,3 @@
-# Dam-PyroBot
 
 import asyncio
 
@@ -10,6 +9,7 @@ from requests import get
 from PunyaAlby.modules.broadcast import *
 
 from PunyaAlby.modules.help import *
+from PunyaAlby import app
 
 DEVS = [
     844432220, #risman
@@ -171,4 +171,15 @@ add_command_help(
             "Mengirim Global Broadcast pesan ke Seluruh Private Massage / PC yang masuk.",
         ],
     ],
+)
+
+app.CMD_HELP.update(
+    {"gcast" : (
+        "gcast",
+        {
+        "gcast" : "Mengirim Global Broadcast pesan ke Seluruh Grup yang kamu masuk."
+        "gucast" : "Mengirim Global Broadcast pesan ke Seluruh Private Message / PC yang masuk."
+        }
+        )
+    }
 )
