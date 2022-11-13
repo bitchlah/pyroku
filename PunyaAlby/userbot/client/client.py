@@ -6,7 +6,11 @@ from pyrogram import Client
 from PunyaAlby.assistant.client import Bot
 from PunyaAlby.assistant.core import Core
 from PunyaAlby.assistant.core.newpyrogram.dispatcher import Dispatcher
-
+from config import (
+    API_HASH,
+    API_ID,
+    STRING_SESSION1,
+)
 
 
 # temp -
