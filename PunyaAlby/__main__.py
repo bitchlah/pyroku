@@ -8,11 +8,20 @@
 # t.me/SharingUserbot & t.me/Lunatic0de
 
 import importlib
-import warnings
+import os 
+import sys
 import asyncio
-
-from pyrogram import idle
-from uvloop import install
+import warnings
+from pyrogram import idle, Client
+from pyrogram.types import (
+    BotCommand,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup
+)
+from pyrogram.errors import (
+    PeerIdInvalid,
+    ChannelInvalid
+)
 
 from config import BOT_VER, CMD_HANDLER
 from PunyaAlby.userbot.client import app
@@ -72,38 +81,6 @@ async def start_userbot():
 
 
 
-async def start_bot():
-    """ This is the main startup function to start both clients i.e assistant & userbot.
-    It also imports modules & plugins for assistant bot & userbot. """
-
-    print(20*"_" + ". Welcome to ALBY PYROBOT." + "_"*20 + "\n\n\n")
-    print("PLUGINS: Installing.\n\n")
-    botplugins = app.import_module("PunyaAlby/assistant/modules/plugins/", exclude=app.NoLoad())
-    app.import_module("PunyaAlby/assistant/modules/callbacks/", display_module=False)
-    app.import_module("PunyaAlby/assistant/modules/inlinequeries/", display_module=False)
-    print(f"\n\n{botplugins} plugins Loaded\n\n")
-    print("MODULES: Installing.\n\n")
-    plugins = app.import_module("PunyaAlby/modules/", exclude=app.NoLoad())
-    print(f"\n\n{plugins} modules Loaded\n\n")
-    await start_assistant()
-    await start_userbot()
-    print("You successfully deployed Tronuserbot, try .ping or .alive commands to test it.")
-
-    try:
-        await send_logmessage()
-    except (ChannelInvalid, PeerIdInvalid):
-        try:
-            await app.get_chat(app.BOTLOG_CHATID)
-            await app.send_message(
-                app.BOTLOG_CHATID,
-                "The userbot is online now."
-            )
-        except PeerIdInvalid:
-            pass
-
-    await idle() # block execution
-
-
 async def send_logmessage():
     await app.bot.send_message(
         app.BOTLOG_CHATID,
@@ -120,6 +97,38 @@ async def send_logmessage():
         )
     )
 
+
+
+async def start_bot():
+    """ This is the main startup function to start both clients i.e assistant & userbot.
+    It also imports modules & plugins for assistant bot & userbot. """
+
+    print(20*"_" + ". Welcome to ALBY PYROBOT." + "_"*20 + "\n\n\n")
+    print("PLUGINS: Installing.\n\n")
+    botplugins = app.import_module("PunyaAlby/assistant/modules/plugins/", exclude=app.NoLoad())
+    app.import_module("PunyaAlby/assistant/modules/callbacks/", display_module=False)
+    app.import_module("PunyaAlby/assistant/modules/inlinequeries/", display_module=False)
+    print(f"\n\n{botplugins} plugins Loaded\n\n")
+    print("MODULES: Installing.\n\n")
+    plugins = app.import_module("PunyaAlby/modules/", exclude=app.NoLoad())
+    print(f"\n\n{plugins} modules Loaded\n\n")
+    await start_assistant()
+    await start_userbot()
+    print("You successfully deployed ALBY PYROBOT, try .ping or .alive commands to test it.")
+
+    try:
+        await send_logmessage()
+    except (ChannelInvalid, PeerIdInvalid):
+        try:
+            await app.get_chat(app.BOTLOG_CHATID)
+            await app.send_message(
+                app.BOTLOG_CHATID,
+                "The userbot is online now."
+            )
+        except PeerIdInvalid:
+            pass
+
+    await idle() # block execution
 
 if __name__ == "__main__":
     LOGGER("PunyaAlby").info("Starting ALBY-PYROBOT")
