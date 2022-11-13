@@ -11,7 +11,7 @@ from pyrogram.types import (
     CallbackQuery
 )
 
-from PunyaAlby.userbot.client import app
+from PunyaAlby.userbot import app
 
 
 
