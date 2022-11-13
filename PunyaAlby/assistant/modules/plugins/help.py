@@ -11,11 +11,8 @@ from PunyaAlby.userbot import app
 
 emoji = app.HelpEmoji() or "•"
 
-settings = app.BuildKeyboard(([f"{emoji} Settings {emoji}", "settings-tab"], [f"{emoji} Modules {emoji}", "plugins-tab"]))
-extra = app.BuildKeyboard(([f"{emoji} Extra {emoji}", "extra-tab"], [f"{emoji} Stats {emoji}", "stats-tab"]))
-about = app.BuildKeyboard(([["Assistant", "assistant-tab"]]))
+settings = app.BuildKeyboard(([[f"{emoji} Modules {emoji}", "plugins-tab"]]))
 close = app.BuildKeyboard(([["Close", "close-tab"]]))
-public = app.BuildKeyboard(([[f"{emoji} Public Commands {emoji}", "public-commands-tab"]]))
 
 
 
@@ -28,7 +25,7 @@ async def start(_, m: Message):
         if m.from_user.id == app.id:
             # bot pic
             buttons=InlineKeyboardMarkup(
-                [ settings, extra, about, close ]
+                [ settings, close ]
             )
             botpic = app.ALIVE_LOGO().split(".")[-1] # extension of media
             if botpic in ("jpg", "png", "jpeg"):
