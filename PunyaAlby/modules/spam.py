@@ -6,6 +6,20 @@ from pyrogram import filters, Client
 from PunyaAlby.modules.help import *
 from PunyaAlby import app
 
+@app.on_message(filters.me & filters.command(["delspam", "deletespam"], [".", "-", "^", "!", "?"]))
+async def statspam(client: Client, message: Message):
+    yanto = await message.reply_text("💡 Penggunaan:\n `.delspam 10 ALBY`")
+    quantity = message.command[1]
+    spam_text = ' '.join(message.command[2:])
+    quantity = int(quantity)
+    await message.delete()
+    for i in range(quantity):
+        await yanto.delete()
+        msg = await client.send_message(message.chat.id, spam_text)
+        await asyncio.sleep(0.1)
+        await msg.delete()
+        await asyncio.sleep(0.1)
+
 @Client.on_message(filters.me & filters.command(["delspam", "deletespam"], [".", "-", "^", "!", "?"]))
 async def statspam(client: Client, message: Message):
     yanto = await message.reply_text("💡 Penggunaan:\n `.delspam 10 ALBY`")
