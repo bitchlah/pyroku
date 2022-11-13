@@ -18,9 +18,9 @@ class SuperClient(Core, Client):
     def __init__(self):
         super().__init__(
             name=random_name,
-            api_id=self.API_ID,
-            api_hash=self.API_HASH,
-            session_string=self.STRING_SESSION1,
+            api_id=API_ID,
+            api_hash=API_HASH,
+            session_string=STRING_SESSION1,
             workers=self.WORKERS,
         )
         self.start()
