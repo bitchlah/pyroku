@@ -8,6 +8,7 @@
 # t.me/SharingUserbot & t.me/Lunatic0de
 
 import importlib
+import warnings
 
 from pyrogram import idle
 from uvloop import install
