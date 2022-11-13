@@ -122,14 +122,6 @@ async def start_bot():
     It also imports modules & plugins for assistant bot & userbot. """
 
     print(20*"_" + ". Welcome to ALBY PYROBOT." + "_"*20 + "\n\n\n")
-    print("PLUGINS: Installing.\n\n")
-    botplugins = app.import_module("punyaalby/assistant/modules/plugins/", exclude=app.NoLoad())
-    app.import_module("punyaalby/assistant/modules/callbacks/", display_module=False)
-    app.import_module("punyaalby/assistant/modules/inlinequeries/", display_module=False)
-    print(f"\n\n{botplugins} plugins Loaded\n\n")
-    print("MODULES: Installing.\n\n")
-    plugins = app.import_module("punyaalby/modules/", exclude=app.NoLoad())
-    print(f"\n\n{plugins} modules Loaded\n\n")
     await start_assistant()
     await start_userbot()
     print("You successfully deployed ALBY PYROBOT, try .ping or .alive commands to test it.")
