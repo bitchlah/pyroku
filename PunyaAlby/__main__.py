@@ -9,6 +9,7 @@
 
 import importlib
 import warnings
+import asyncio
 
 from pyrogram import idle
 from uvloop import install
