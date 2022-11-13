@@ -13,6 +13,7 @@ from pyrogram import idle
 from uvloop import install
 
 from config import BOT_VER, CMD_HANDLER
+from PunyaAlby.userbot import app
 from PunyaAlby import BOTLOG_CHATID, LOGGER, LOOP, aiosession, bot1, bots
 from PunyaAlby.helpers.misc import create_botlog, git, heroku
 
@@ -28,9 +29,9 @@ MSG_ON = """
 
 async def start_assistant():
     """ this function starts the pyrogram bot client. """
-    if bot1 and bot1.bot:
+    if app and app.bot:
         print("Activating assistant.\n")
-        response = await bot1.bot.start()
+        response = await app.bot.start()
         if response:
             print("Assistant activated.\n")
             botcmd = [
@@ -38,12 +39,12 @@ async def start_assistant():
                 ["help", "Get your helpdex."],
                 ["ping", "Get server response speed & uptime."],
             ]
-            cmds = [x.command for x in await bot1.bot.get_bot_commands()]
+            cmds = [x.command for x in await app.bot.get_bot_commands()]
             botcmdkeys = [y[0] for y in botcmd]
 
             if cmds != botcmdkeys:
                 print("Setting bot commands.\n")
-                await bot1.bot.set_bot_commands([BotCommand(y[0], y[1]) for y in botcmd])
+                await app.bot.set_bot_commands([BotCommand(y[0], y[1]) for y in botcmd])
                 print("Added bot commands.\n")
         else:
             print("Assistant is not activated.\n")
@@ -51,44 +52,59 @@ async def start_assistant():
         print("Assistant start unsuccessful, please check that you have given the bot token.\n")
         print("skipping assistant start !")
 
-async def main():
-    for bot in bots:
+
+
+async def start_userbot():
+    """ this function starts the pyrogram userbot client. """
+    if app:
+        print("Activating userbot.\n")
+        response = await app.start()
+        if response:
+            print("Userbot activated.\n")
+        else:
+            print("Userbot is not activated.\n")
+    else:
+        print("Userbot startup unsuccessful, please check everything again ...")
+        print("Quiting ...")
+        sys.exit()
+
+
+
+async def start_bot():
+    """ This is the main startup function to start both clients i.e assistant & userbot.
+    It also imports modules & plugins for assistant bot & userbot. """
+
+    print(20*"_" + ". Welcome to ALBY PYROBOT." + "_"*20 + "\n\n\n")
+    print("PLUGINS: Installing.\n\n")
+    botplugins = app.import_module("PunyaAlby/assistant/modules/plugins/", exclude=app.NoLoad())
+    app.import_module("PunyaAlby/assistant/modules/callbacks/", display_module=False)
+    app.import_module("PunyaAlby/assistant/modules/inlinequeries/", display_module=False)
+    print(f"\n\n{botplugins} plugins Loaded\n\n")
+    print("MODULES: Installing.\n\n")
+    plugins = app.import_module("PunyaAlby/modules/", exclude=app.NoLoad())
+    print(f"\n\n{plugins} modules Loaded\n\n")
+    await start_assistant()
+    await start_userbot()
+    print("You successfully deployed Tronuserbot, try .ping or .alive commands to test it.")
+
+    try:
+        await send_logmessage()
+    except (ChannelInvalid, PeerIdInvalid):
         try:
-            await bot.start()
-            bot.me = await bot.get_me()
-            await bot.join_chat("ruangdiskusikami")
-            await bot.join_chat("ruangprojects")
-            try:
-                await bot.send_message(
-                    BOTLOG_CHATID, MSG_ON.format(BOT_VER, CMD_HANDLER)
-                )
-            except BaseException:
-                pass
-            LOGGER("PunyaAlby").info(
-                f"Logged in as {bot.me.first_name} | [ {bot.me.id} ]"
+            await app.get_chat(app.BOTLOG_CHATID)
+            await app.send_message(
+                app.BOTLOG_CHATID,
+                "The userbot is online now."
             )
-        except Exception as a:
-            LOGGER("main").warning(a)
-    LOGGER("PunyaAlby").info(f"ALBY-PYROBOT v{BOT_VER} [🔥 BERHASIL DIAKTIFKAN! 🔥]")
-    if bot1 and not str(BOTLOG_CHATID).startswith("-100"):
-        await create_botlog(bot1)
-    if bot1 and str(BOTLOG_CHATID).startswith("-100"):
-        bot1.me = await bot1.get_me()
-        chat = await bot1.get_chat(BOTLOG_CHATID)
-        desc = "GROUP LOGS UNTUK ALBY-PYROBOT.\n\nHARAP JANGAN KELUAR DARI GROUP INI.\n\n✨ Powered By ~ @ruangdiskusikami ✨"
-        lolo = f"LOGS FOR {bot1.me.first_name}"
-        if chat.description != desc:
-            await bot1.set_chat_description(BOTLOG_CHATID, desc)
-        if chat.title != lolo:
-            await bot1.set_chat_title(BOTLOG_CHATID, lolo)
-        await bot1.set_chat_photo(BOTLOG_CHATID, photo="PunyaAlby/helpers/homepage.png")
-    await idle()
-    await aiosession.close()
+        except PeerIdInvalid:
+            pass
+
+    await idle() # block execution
 
 
 async def send_logmessage():
-    await bot1.bot.send_message(
-        bot1.LOG_CHAT,
+    await app.bot.send_message(
+        app.BOTLOG_CHATID,
         "The userbot is online now.",
         reply_markup=InlineKeyboardMarkup(
             [
@@ -105,7 +121,7 @@ async def send_logmessage():
 
 if __name__ == "__main__":
     LOGGER("PunyaAlby").info("Starting ALBY-PYROBOT")
-    install()
-    git()
-    heroku()
-    LOOP.run_until_complete(main())
+    with warnings.catch_warnings(): # suppress DeprecationWarning
+        warnings.simplefilter("ignore")
+        loop = asyncio.get_event_loop()
+    loop.run_until_complete(start_bot())
