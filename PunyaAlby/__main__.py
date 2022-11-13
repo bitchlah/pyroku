@@ -105,7 +105,7 @@ async def start_bot():
 
     print(20*"_" + ". Welcome to ALBY PYROBOT." + "_"*20 + "\n\n\n")
     print("PLUGINS: Installing.\n\n")
-    botplugins = app.import_module("PunyaAlby/assistant/modules/plugins/", exclude=app.NoLoad())
+    botplugins = app.import_module("PunyaAlby/assistant/modules/plugins/")
     app.import_module("PunyaAlby/assistant/modules/callbacks/", display_module=False)
     app.import_module("PunyaAlby/assistant/modules/inlinequeries/", display_module=False)
     print(f"\n\n{botplugins} plugins Loaded\n\n")
