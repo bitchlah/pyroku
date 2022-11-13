@@ -13,7 +13,7 @@ from pyrogram import *
 from PunyaAlby.modules.help import *
 from pyrogram.types import *
 from PunyaAlby.helpers.basic import edit_or_reply, get_text, get_user
-
+from PunyaAlby import app 
 
 OWNER = os.environ.get("OWNER", None)
 BIO = os.environ.get("BIO", "CLONE by ALBY USERBOT")
@@ -65,4 +65,15 @@ add_command_help(
         [".clone", "To Clone someone Profile."],
         [".unclone", "To Get Your Account Back."],
     ],
+)
+
+app.CMD_HELP.update(
+    {"clone" : (
+        "clone",
+        {
+        "clone" : "To Clone someone Profile."
+        "unclone" : "To Get Your Account Back."
+        }
+        )
+    }
 )
