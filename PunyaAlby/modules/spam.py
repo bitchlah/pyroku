@@ -4,6 +4,7 @@ from asyncio import sleep
 import asyncio
 from pyrogram import filters, Client
 from PunyaAlby.modules.help import *
+from PunyaAlby import app
 
 @Client.on_message(filters.me & filters.command(["delspam", "deletespam"], [".", "-", "^", "!", "?"]))
 async def statspam(client: Client, message: Message):
@@ -116,4 +117,18 @@ add_command_help(
         [".ds or .delayspam [Jumlah] [Waktu] [Text]", "Spam text by amount and time."],
         [".fspam or .fastspam", "Spam Your message fastly."],
     ],
+)
+
+app.CMD_HELP.update(
+    {"spam" : (
+        "spam",
+        {
+        ".delspam" : "It will Spam then delete it's spam automatically."
+        ".spam" : "Spam Your Custom Message."
+        ".sspam [reply to sticker]" : "Sticker Spam."
+        ".ds or .delayspam [Jumlah] [Waktu] [Text]" : "Spam text by amount and time."
+        ".fspam or .fastspam" : "Spam Your message fastly."
+        }
+        )
+    }
 )
