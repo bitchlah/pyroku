@@ -47,6 +47,7 @@ STRING_SESSION2 = getenv("STRING_SESSION2", "")
 STRING_SESSION3 = getenv("STRING_SESSION3", "")
 STRING_SESSION4 = getenv("STRING_SESSION4", "")
 STRING_SESSION5 = getenv("STRING_SESSION5", "")
+SUDO_USERS = list(map(int, getenv("SUDO_USERS", "").split()))
 
 """ Configuration file to get secure data we need """
 
