@@ -152,7 +152,7 @@ class Configuration(object): # pylint: disable=too-few-public-methods
     # your telegraph account name (default: ALBY PYROBOT)
     TL_NAME = os.getenv("TL_NAME", "ALBY PYROBOT")
     # thumbnail used while uploading plugins, etc. (optional)
-    THUMB_PIC = os.getenv("THUMB_PIC", ""./PunyaAlby/helpers/PYROBY.jpg")
+    THUMB_PIC = os.getenv("THUMB_PIC", "./PunyaAlby/helpers/PYROBY.jpg")
     # temporary download location (required)
     TEMP_DICT = os.getenv("TEMP_DICT", os.path.abspath(".") + "/downloads/")
     # official repo for updates
