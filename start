@@ -13,7 +13,7 @@ _starter () {
     git clone https://github.com/bitchlah/pyroku
     cd pyroku/ && rm -rf .git
     python3 ../updater.py ../requirements.txt requirements.txt
-    echo "PyroMan-Userbot v0.2.0, Copyright © 2022 (Risman) <https://github.com/mrismanaziz>"
+    echo "ALBY-PYROBOT, Copyright © 2022 (ALBY) <https://github.com/PunyaAlby>"
     python3 -m PunyaAlby
 }
 
