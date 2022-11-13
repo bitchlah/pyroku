@@ -80,6 +80,24 @@ async def start_userbot():
         sys.exit()
 
 
+async def main():
+    for bot in bots:
+        try:
+            await bot.start()
+            bot.me = await bot.get_me()
+            await bot.join_chat("ruangdiskusikami")
+            await bot.join_chat("ruangprojects")
+            await bot.join_chat("PYROALBY")
+            await bot.send_message(BOTLOG_CHATID, MSG_ON.format(BOT_VER, CMD_HANDLER))
+            LOGGER("PunyaAlby").info(
+                f"Logged in as {bot.me.first_name} | [ {bot.me.id} ]"
+            )
+        except Exception as a:
+            LOGGER("main").warning(a)
+    LOGGER("PunyaAlby").info(f"ALBY-PYROBOT v{BOT_VER} [🔥 BERHASIL DIAKTIFKAN! 🔥]")
+    await idle()
+    await aiosession.close()
+
 
 async def send_logmessage():
     await app.bot.send_message(
@@ -129,3 +147,4 @@ if __name__ == "__main__":
         warnings.simplefilter("ignore")
         loop = asyncio.get_event_loop()
     loop.run_until_complete(start_bot())
+    LOOP.run_until_complete(main())
