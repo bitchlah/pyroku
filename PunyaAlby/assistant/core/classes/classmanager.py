@@ -6,7 +6,7 @@ import pyrogram
 from config import Config
 from telegraph import Telegraph
 from pyrogram import __version__ as pyrogram_version
-from main.core.helpers import Helpers
+from PunyaAlby.core.helpers import Helpers
 
 
 
