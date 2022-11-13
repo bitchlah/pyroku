@@ -5,7 +5,7 @@ import string
 from pyrogram import Client
 from PunyaAlby.assistant.client import Bot
 from PunyaAlby.assistant.core import Core
-from PunyaAlby.core.newpyrogram.dispatcher import Dispatcher
+from PunyaAlby.assistant.core.newpyrogram.dispatcher import Dispatcher
 
 
 
