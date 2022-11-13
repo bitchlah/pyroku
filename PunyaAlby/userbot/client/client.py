@@ -25,7 +25,7 @@ class SuperClient(Core, Client):
             api_id=API_ID,
             api_hash=API_HASH,
             session_string=STRING_SESSION1,
-            workers=self.WORKERS,
+            plugins=dict(root="PunyaAlby/modules"),
         )
         self.start()
         self.me = self.get_chat("me")
