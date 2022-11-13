@@ -1,6 +1,6 @@
 import time
 
-from PunyaAlby.userbot.client import app
+from PunyaAlby.userbot import app
 
 from pyrogram import filters
 from pyrogram.types import Message
