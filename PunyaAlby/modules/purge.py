@@ -16,6 +16,7 @@ from pyrogram.types import Message
 from PunyaAlby.helpers.basic import edit_or_reply
 from PunyaAlby.modules.broadcast import *
 from PunyaAlby.modules.help import *
+from PunyaAlby import app
 
 @Client.on_message(filters.command("del", [".", "-", "^", "!", "?"]) & filters.me)
 async def del_msg(_, message: Message):
@@ -96,7 +97,6 @@ async def purgeme(client: Client, message: Message):
             revoke=True,
         )
 
-
 add_command_help(
     "purge",
     [
@@ -104,4 +104,16 @@ add_command_help(
         [".purge", "Menghapus pesan, balas ke pesan."],
         [".purgeme <angka>", "Menghapus jumlah pesan anda, yang mau anda hapus."],
     ],
+)
+
+app.CMD_HELP.update(
+    {"purge" : (
+        "purge",
+        {
+        ".del" : "Menghapus pesan, balas ke pesan."
+        ".purge" : "Menghapus pesan, balas ke pesan."
+        ".purgeme <angka>" : "Menghapus jumlah pesan anda, yang mau anda hapus."
+        }
+        )
+    }
 )
