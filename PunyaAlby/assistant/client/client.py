@@ -18,6 +18,7 @@ class Bot(Core, Client):
             api_hash=self.API_HASH,
             bot_token=self.BOT_TOKEN,
             in_memory=True
+            plugins=dict(root="PunyaAlby/assistant/modules/plugins"),
 	)
         self.start()
         self.me = self.get_chat("me")
